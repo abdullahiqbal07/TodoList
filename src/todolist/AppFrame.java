@@ -43,7 +43,12 @@ public class AppFrame extends JFrame {
         
         
         this.add(title,BorderLayout.NORTH);
+        this.add(btnpanel,BorderLayout.SOUTH);
         
+        
+        AddTask = btnpanel.getAddTask();
+        Clear = btnpanel.getClear();
+        Save = btnpanel.getSave();
         
         
         
