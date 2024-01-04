@@ -44,17 +44,82 @@ public class AppFrame extends JFrame {
         
         this.add(title,BorderLayout.NORTH);
         this.add(btnpanel,BorderLayout.SOUTH);
-        
+        this.add(list,BorderLayout.CENTER);
         
         AddTask = btnpanel.getAddTask();
         Clear = btnpanel.getClear();
         Save = btnpanel.getSave();
         
         
-        
+        addListeners();
         
     }
     
-
+    public void addListeners() {
+    	AddTask.addMouseListener(new MouseAdapter()
+    	{
+    		@Override
+    		public void mousePressed(MouseEvent e)
+    		{
+    			Task task = new Task();
+    			list.add(task);
+    			list.updatenumbers();
+    			
+    			task.getDone().addMouseListener(new MouseAdapter()
+    			{
+    				@Override
+    				public void mousePressed(MouseEvent e)
+    				{
+    					task.changeState();
+    					revalidate();
+    				}
+    				
+				});
+    			revalidate();
+    		}
+    		
+    		
+		});
+    	
+    	
+    	Clear.addMouseListener(new MouseAdapter()
+		{
+    		@Override
+    		public void mousePressed(MouseEvent e) {
+    			list.removeCompletedTasks();
+    			repaint();
+    		}
+    		
+    		
+    		
+		}
+    	);
+        
+        
+        Save.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                saveTasksToFile();
+            }
+        });
+        
+    }
+    
+    private void saveTasksToFile() {
+        
+try {
+      FileWriter myWriter = new FileWriter("D:\\Nust\\Semester 02\\practice\\ToDoList\\filename.txt");
+      String hi = list.collect();
+      myWriter.write(hi);
+      myWriter.close();
+      JOptionPane.showMessageDialog(null,("File Saved"));
+      System.out.println("Successfully wrote to the file.");
+    } catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
+ 
+            
+    }
     
 }
